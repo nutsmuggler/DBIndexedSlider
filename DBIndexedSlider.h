@@ -36,6 +36,7 @@
 @property(assign) CGFloat labelOffset;
 
 @property(readonly) NSString* value;
+@property(readonly) NSUInteger indexValue;
 
 
 //- (id)initWithIndicatorImage:(UIImage*)image;

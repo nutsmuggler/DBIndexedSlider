@@ -165,10 +165,18 @@ typedef void (^AnimationBlock)(void);
 
 #pragma mark - value
 
+//
+// Gets the value from the selected step label
+//
 -(NSString*)value {
     return [self.steps objectAtIndex:_selectedStepIndex];
 }
-
+//
+// Gets the selected step index
+//
+-(NSUInteger)indexValue {
+    return _selectedStepIndex;
+}
 
 #pragma mark - Slider logic
 
