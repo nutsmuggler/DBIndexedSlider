@@ -31,7 +31,6 @@
 		37AA01C914EBAD98008B0955 /* sliderIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sliderIndicator@2x.png"; sourceTree = "<group>"; };
 		37AA01CF14EBAF47008B0955 /* stretchableTrack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stretchableTrack@2x.png"; sourceTree = "<group>"; };
 		37AA01D114EBAF4F008B0955 /* stretchableTrack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stretchableTrack.png; sourceTree = "<group>"; };
-		37AA01D314EBBB2D008B0955 /* sliderIndicatorGhost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliderIndicatorGhost.png; sourceTree = "<group>"; };
 		5C68062614EA5C3D00DF839A /* CustomSliderSandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomSliderSandbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C68062A14EA5C3D00DF839A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5C68062C14EA5C3D00DF839A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -68,7 +67,6 @@
 			children = (
 				5C68064714EA5C7200DF839A /* DBIndexedSlider.h */,
 				5C68064814EA5C7200DF839A /* DBIndexedSlider.m */,
-				37AA01D314EBBB2D008B0955 /* sliderIndicatorGhost.png */,
 				37AA01C814EBAD98008B0955 /* sliderIndicator.png */,
 				37AA01C914EBAD98008B0955 /* sliderIndicator@2x.png */,
 				37AA01D114EBAF4F008B0955 /* stretchableTrack.png */,
