@@ -59,7 +59,7 @@
 }
 -(IBAction)updateLabel:(id)sender {
     label.text = slider.value;
-
+    indexLabel.text = [NSString stringWithFormat:@"%i", slider.indexValue];
 }
 
 -(IBAction)updateIndicator:(id)sender {

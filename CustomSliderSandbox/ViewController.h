@@ -11,7 +11,9 @@
 @interface ViewController : UIViewController {
     IBOutlet DBIndexedSlider* slider;
     IBOutlet UILabel* label;
+    IBOutlet UILabel* indexLabel;
 }
+
 -(IBAction)updateLabel:(id)sender;
 -(IBAction)updateIndicator:(id)sender;
 -(IBAction)updateSteps:(id)sender;
