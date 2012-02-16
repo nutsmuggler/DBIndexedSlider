@@ -13,7 +13,6 @@
 		37AA01CB14EBAD98008B0955 /* sliderIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37AA01C914EBAD98008B0955 /* sliderIndicator@2x.png */; };
 		37AA01D014EBAF47008B0955 /* stretchableTrack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 37AA01CF14EBAF47008B0955 /* stretchableTrack@2x.png */; };
 		37AA01D214EBAF4F008B0955 /* stretchableTrack.png in Resources */ = {isa = PBXBuildFile; fileRef = 37AA01D114EBAF4F008B0955 /* stretchableTrack.png */; };
-		37AA01D414EBBB2D008B0955 /* sliderIndicatorGhost.png in Resources */ = {isa = PBXBuildFile; fileRef = 37AA01D314EBBB2D008B0955 /* sliderIndicatorGhost.png */; };
 		5C68062B14EA5C3D00DF839A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C68062A14EA5C3D00DF839A /* UIKit.framework */; };
 		5C68062D14EA5C3D00DF839A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C68062C14EA5C3D00DF839A /* Foundation.framework */; };
 		5C68062F14EA5C3D00DF839A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C68062E14EA5C3D00DF839A /* CoreGraphics.framework */; };
@@ -46,7 +45,7 @@
 		5C68063C14EA5C3D00DF839A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		5C68063D14EA5C3D00DF839A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		5C68064014EA5C3D00DF839A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
-		5C68064714EA5C7200DF839A /* DBIndexedSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DBIndexedSlider.h; sourceTree = "<group>"; };
+		5C68064714EA5C7200DF839A /* DBIndexedSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBIndexedSlider.h; sourceTree = "<group>"; };
 		5C68064814EA5C7200DF839A /* DBIndexedSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBIndexedSlider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,7 +180,6 @@
 				37AA01CB14EBAD98008B0955 /* sliderIndicator@2x.png in Resources */,
 				37AA01D014EBAF47008B0955 /* stretchableTrack@2x.png in Resources */,
 				37AA01D214EBAF4F008B0955 /* stretchableTrack.png in Resources */,
-				37AA01D414EBBB2D008B0955 /* sliderIndicatorGhost.png in Resources */,
 				37A3411E14EC0DB9005BB07E /* paper.png in Resources */,
 				37A3411F14EC0DB9005BB07E /* paper@2x.png in Resources */,
 			);
