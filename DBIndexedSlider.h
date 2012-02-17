@@ -38,6 +38,8 @@
 @property(readonly) NSString* value;
 @property(readonly) NSUInteger indexValue;
 
+-(void)setValue:(NSString*)value animated:(BOOL)animated;
+-(void)setIndexValue:(NSUInteger)indexValue animated:(BOOL)animated;
 
 //- (id)initWithIndicatorImage:(UIImage*)image;
 

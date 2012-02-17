@@ -57,11 +57,18 @@
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
+
+
+
 -(IBAction)updateLabel:(id)sender {
     label.text = slider.value;
     indexLabel.text = [NSString stringWithFormat:@"%i", slider.indexValue];
 }
 
+-(IBAction)updateValue:(id)sender {
+    UIButton* button = (UIButton*)sender;
+    [slider setValue:[button titleForState:UIControlStateNormal] animated:YES];
+}
 -(IBAction)updateIndicator:(id)sender {
     UIButton* button = (UIButton*)sender;
     [slider setIndicatorImage:[button imageForState:UIControlStateNormal]];

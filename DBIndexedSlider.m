@@ -29,6 +29,7 @@ typedef void (^AnimationBlock)(void);
 
 -(NSInteger)centerXForValue:(float)value;
 -(void)refreshGhostImage;
+-(void)moveToSelectedIndex:(BOOL)animated;
 @end
 
 @implementation DBIndexedSlider
@@ -75,7 +76,7 @@ typedef void (^AnimationBlock)(void);
     
     [slider addTarget:self action:@selector(sliderUpdated:) forControlEvents:UIControlEventValueChanged];
     [slider addTarget:self action:@selector(sliderFinishedUpdating:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [slider addTarget:self action:@selector(sliderFinishedUpdating:) forControlEvents:UIControlEventTouchUpOutside];
     [self layoutLabels];
 
     [self sendActionsForControlEvents:UIControlEventValueChanged];
@@ -171,11 +172,36 @@ typedef void (^AnimationBlock)(void);
 -(NSString*)value {
     return [self.steps objectAtIndex:_selectedStepIndex];
 }
+
+-(void)setValue:(NSString *)value animated:(BOOL)animated {
+    int i = 0;
+    for (UILabel* label in labels) {
+        if ([label.text isEqualToString:value]) {
+            break;
+        }
+        i++;
+    }
+    // not match
+    if (i == [labels count]) {
+        return;
+    }
+    [self setIndexValue:i animated:animated];
+}
+
 //
 // Gets the selected step index
 //
 -(NSUInteger)indexValue {
     return _selectedStepIndex;
+}
+
+
+-(void)setIndexValue:(NSUInteger)indexValue animated:(BOOL)animated {
+    if (indexValue == _selectedStepIndex) {
+        return;
+    }
+    _selectedStepIndex = indexValue;
+    [self moveToSelectedIndex:animated]; 
 }
 
 #pragma mark - Slider logic
@@ -193,15 +219,8 @@ typedef void (^AnimationBlock)(void);
 
 -(void)sliderFinishedUpdating:(id)sender {
     _selectedStepIndex = [self estimatedStepNumberForPosition:slider.value];
+    [self moveToSelectedIndex:YES];
 
-    [UIView animateWithDuration:.2 
-                     animations:^{
-                         slider.value =  [self valueForStep:_selectedStepIndex];;
-                         indicatorView.frame = [self indicatorRect];
-    }
-                     completion:^(BOOL finished) {
-                         [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
-    }];
 }
 
 -(void)updateLabelColors:(BOOL)animated {
@@ -299,6 +318,22 @@ typedef void (^AnimationBlock)(void);
     return x;
 }
 
+-(void)moveToSelectedIndex:(BOOL)animated {
+    AnimationBlock moveToSelected = ^ {
+        slider.value =  [self valueForStep:_selectedStepIndex];
+        indicatorView.frame = [self indicatorRect];
+    }; 
+    if (animated) {
+        [UIView animateWithDuration:.2 
+                         animations:moveToSelected
+                         completion:^(BOOL finished) {
+                             [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+                         }];
+    } else {
+        moveToSelected();
+        [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+    }
+}
 #pragma mark - ghost thumb image
 -(void)refreshGhostImage {
     UIGraphicsBeginImageContext(self.indicatorImage.size);

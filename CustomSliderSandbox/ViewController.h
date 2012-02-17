@@ -13,7 +13,7 @@
     IBOutlet UILabel* label;
     IBOutlet UILabel* indexLabel;
 }
-
+-(IBAction)updateValue:(id)sender;
 -(IBAction)updateLabel:(id)sender;
 -(IBAction)updateIndicator:(id)sender;
 -(IBAction)updateSteps:(id)sender;
