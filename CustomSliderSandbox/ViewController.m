@@ -81,7 +81,7 @@
 }
 -(IBAction)updateFont:(id)sender {
     UIButton* button = (UIButton*)sender;
-    slider.labelFont = button.titleLabel.font;
+    slider.textFont = button.titleLabel.font;
 
 }
 -(IBAction)updateLabelOffset:(id)sender {
@@ -95,11 +95,11 @@
 }
 -(IBAction)updateColor:(id)sender {
     UIButton* button = (UIButton*)sender;
-    slider.labelColor = [button backgroundColor];
+    slider.textColor = [button backgroundColor];
 }
 -(IBAction)updateSelectedColor:(id)sender {
     UIButton* button = (UIButton*)sender;
-    slider.labelHighlightedColor = [button backgroundColor];
+    slider.textHighlightedColor = [button backgroundColor];
 }
 
 @end

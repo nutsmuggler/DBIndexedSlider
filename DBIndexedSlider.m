@@ -20,7 +20,7 @@ typedef void (^AnimationBlock)(void);
 -(CGRect)sliderRect;
 -(float)sliderWidth;
 
--(void)layoutLabels;
+-(void)layoutButtons;
 -(void)updateLabelColors:(BOOL)animated;
 -(void)generateGhostImage;
 - (NSUInteger) estimatedStepNumberForPosition:(CGFloat)aPosition;
@@ -29,6 +29,7 @@ typedef void (^AnimationBlock)(void);
 
 -(NSInteger)centerXForValue:(float)value;
 -(void)refreshGhostImage;
+-(void)refreshButtonColors;
 -(void)moveToSelectedIndex:(BOOL)animated;
 @end
 
@@ -40,14 +41,14 @@ typedef void (^AnimationBlock)(void);
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        labels = [[NSMutableArray alloc] initWithCapacity:5];
+        buttons = [[NSMutableArray alloc] initWithCapacity:5];
 
         self.indicatorImage = [UIImage imageNamed:@"sliderIndicator.png"];
         self.trackImage = [[UIImage imageNamed:@"stretchableTrack.png"] stretchableImageWithLeftCapWidth:1 topCapHeight:2];
-        _labelColor = [UIColor colorWithWhite:0.800 alpha:1.000];
-        _labelHighlightedColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+        _textColor = [UIColor colorWithWhite:0.800 alpha:1.000];
+        _textHighlightedColor = [UIColor colorWithWhite:0.400 alpha:1.000];
         _labelOffset = 40;
-        _labelFont = [UIFont systemFontOfSize:20];
+        _textFont = [UIFont systemFontOfSize:20];
         _padding = 10;
         _steps = [NSArray arrayWithObjects:@"0",@"1",@"2",@"3", nil];
         _selectedStepIndex = 0;
@@ -77,7 +78,7 @@ typedef void (^AnimationBlock)(void);
     [slider addTarget:self action:@selector(sliderUpdated:) forControlEvents:UIControlEventValueChanged];
     [slider addTarget:self action:@selector(sliderFinishedUpdating:) forControlEvents:UIControlEventTouchUpInside];
     [slider addTarget:self action:@selector(sliderFinishedUpdating:) forControlEvents:UIControlEventTouchUpOutside];
-    [self layoutLabels];
+    [self layoutButtons];
 
     [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
@@ -90,7 +91,7 @@ typedef void (^AnimationBlock)(void);
 -(void)setSteps:(NSArray *)steps {
     _selectedStepIndex = 0;
     _steps = steps;
-    [self layoutLabels];
+    [self layoutButtons];
 }
 
 -(UIImage*)indicatorImage {
@@ -103,40 +104,45 @@ typedef void (^AnimationBlock)(void);
     [self refreshGhostImage];
     [slider setThumbImage:ghostImage forState:UIControlStateNormal];
     indicatorView.frame = [self indicatorRect];
-    if([labels count])
-        [self layoutLabels];
+    if([buttons count])
+        [self layoutButtons];
 
 }
--(UIFont*)labelFont {
-    return _labelFont;
+-(UIFont*)textFont {
+    return _textFont;
 }
--(void)setLabelFont:(UIFont *)labelFont {
-    if (_labelFont == labelFont) {
+-(void)setTextFont:(UIFont *)textFont {
+    if (_textFont == textFont) {
         return;
     }
-    _labelFont = labelFont;
-    [self layoutLabels];
+    _textFont = textFont;
+    [self layoutButtons];
 }
 
--(UIColor*)labelColor {
-    return _labelColor;
+-(UIColor*)textColor {
+    return _textColor;
 }
--(void)setLabelColor:(UIColor *)labelColor {
-    if([_labelColor isEqual:labelColor])
+-(void)setTextColor:(UIColor *)textColor {
+    if([_textColor isEqual:textColor])
         return;
     
-    _labelColor = labelColor;
+    _textColor = textColor;
+    [self refreshButtonColors];
+
     [self updateLabelColors:NO];
+    
 }
 
--(UIColor*)labelHighlightedColor {
-    return _labelHighlightedColor;
+-(UIColor*)textHighlightedColor {
+    return _textHighlightedColor;
 }
--(void)setLabelHighlightedColor:(UIColor *)labelHighlightedColor {
-    if([_labelHighlightedColor isEqual:labelHighlightedColor])
+-(void)setTextHighlightedColor:(UIColor *)textHighlightedColor {
+    if([_textHighlightedColor isEqual:textHighlightedColor])
         return;
     
-    _labelHighlightedColor = labelHighlightedColor;
+    _textHighlightedColor = textHighlightedColor;
+    [self refreshButtonColors];
+
     [self updateLabelColors:NO];
 }
 
@@ -150,7 +156,7 @@ typedef void (^AnimationBlock)(void);
     _padding = padding;
     //trackView.frame = [self trackRect];
     slider.frame = [self sliderRect];
-    [self layoutLabels];
+    [self layoutButtons];
 }
 
 -(CGFloat)labelOffset {
@@ -161,7 +167,7 @@ typedef void (^AnimationBlock)(void);
         return;
     }
     _labelOffset = labelOffset;
-    [self layoutLabels];
+    [self layoutButtons];
 }
 
 #pragma mark - value
@@ -175,14 +181,14 @@ typedef void (^AnimationBlock)(void);
 
 -(void)setValue:(NSString *)value animated:(BOOL)animated {
     int i = 0;
-    for (UILabel* label in labels) {
-        if ([label.text isEqualToString:value]) {
+    for (UIButton* button in buttons) {
+        if ([[button titleForState:UIControlStateNormal] isEqualToString:value]) {
             break;
         }
         i++;
     }
     // not match
-    if (i == [labels count]) {
+    if (i == [buttons count]) {
         return;
     }
     [self setIndexValue:i animated:animated];
@@ -226,8 +232,10 @@ typedef void (^AnimationBlock)(void);
 -(void)updateLabelColors:(BOOL)animated {
     
     AnimationBlock block = ^ {
-        [labels makeObjectsPerformSelector:@selector(setTextColor:) withObject:self.labelColor];
-        [[labels objectAtIndex:_selectedStepIndex] setTextColor:self.labelHighlightedColor];
+        for (UIButton* button in buttons) {
+            button.selected = NO;
+        }
+        [[buttons objectAtIndex:_selectedStepIndex] setSelected:YES];
     };
     if (animated) {
         [UIView animateWithDuration:2 animations:block];
@@ -258,33 +266,45 @@ typedef void (^AnimationBlock)(void);
     frame.size = self.indicatorImage.size;
     return  frame;
 }
--(void)layoutLabels {
-    [labels makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [labels removeAllObjects];
+-(void)layoutButtons {
+    [buttons makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [buttons removeAllObjects];
     int i = 0;
     for (NSString* step in _steps) {
-        UILabel* stepLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        stepLabel.backgroundColor = [UIColor clearColor];
-        stepLabel.textColor = self.labelColor;
-        stepLabel.font = _labelFont;
-        stepLabel.text = step;
-        [stepLabel sizeToFit];
-        CGPoint center = stepLabel.center;
+    
+        UIButton* stepButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        stepButton.backgroundColor = [UIColor clearColor];
+        stepButton.titleLabel.font = _textFont;
+        [stepButton setTitle:step forState:UIControlStateNormal];
+        [stepButton sizeToFit];
+        CGRect frame = stepButton.frame;
+        if(frame.size.width < 30)
+            frame.size.width = 30;
+        if(frame.size.height < 30)
+            frame.size.height = 30;
+        stepButton.frame = frame;
+        
+        CGPoint center = stepButton.center;
         center.x = [self centerXForValue:[self valueForStep:i]];
-        center.y = self.labelOffset;
-        stepLabel.center = center;
-        [labels addObject:stepLabel];
-        [self addSubview:stepLabel];
+        center.y = self.labelOffset-3;
+        stepButton.center = center;
+        
+        [stepButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [buttons addObject:stepButton];
+        [self addSubview:stepButton];
         i++;
     }
     _selectedStepIndex = 0;
     
     slider.value = 0;
     indicatorView.frame = [self indicatorRect];
-    [labels makeObjectsPerformSelector:@selector(setTextColor:) withObject:self.labelColor];
-    [[labels objectAtIndex:_selectedStepIndex] setTextColor:self.labelHighlightedColor];
+    [self refreshButtonColors];
 }
-
+-(void)buttonPressed:(id)sender {
+    UIButton* button = (UIButton*)sender;
+    int i = [buttons indexOfObject:button];
+    [self setIndexValue:i animated:YES];
+}
 
 - (NSUInteger)estimatedStepNumberForPosition:(CGFloat)aPosition {
     if (!self.steps)
@@ -322,6 +342,7 @@ typedef void (^AnimationBlock)(void);
     AnimationBlock moveToSelected = ^ {
         slider.value =  [self valueForStep:_selectedStepIndex];
         indicatorView.frame = [self indicatorRect];
+        [self updateLabelColors:NO];
     }; 
     if (animated) {
         [UIView animateWithDuration:.2 
@@ -335,6 +356,13 @@ typedef void (^AnimationBlock)(void);
     }
 }
 #pragma mark - ghost thumb image
+-(void)refreshButtonColors {
+    for (UIButton* button in buttons) {
+        [button setTitleColor:self.textColor forState:UIControlStateNormal];
+        [button setTitleColor:self.textHighlightedColor forState:UIControlStateHighlighted];
+        [button setTitleColor:self.textHighlightedColor forState:UIControlStateSelected];
+    }
+}
 -(void)refreshGhostImage {
     UIGraphicsBeginImageContext(self.indicatorImage.size);
     CGContextRef currentContext = UIGraphicsGetCurrentContext();

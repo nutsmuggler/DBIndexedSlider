@@ -12,25 +12,25 @@
     UISlider* slider;
     UIImageView* trackView;
     UIImageView* indicatorView;
-    NSMutableArray* labels;
+    NSMutableArray* buttons;
     NSUInteger _selectedStepIndex;
     UIImage* ghostImage;
     UIImage* _indicatorImage;
     NSArray* _steps;
-    UIFont* _labelFont;
+    UIFont* _textFont;
     CGFloat _labelOffset;
     CGFloat _padding;
-    UIColor* _labelColor;
-    UIColor* _labelHighlightedColor;
+    UIColor* _textColor;
+    UIColor* _textHighlightedColor;
 
 }
 @property(nonatomic,weak) UIImage* trackImage;
 @property(nonatomic,weak) UIImage* indicatorImage;
 
 @property(nonatomic, strong) NSArray* steps;
-@property(nonatomic, strong) UIColor* labelColor;
-@property(nonatomic, strong) UIColor* labelHighlightedColor;
-@property(nonatomic, strong) UIFont* labelFont;
+@property(nonatomic, strong) UIColor* textColor;
+@property(nonatomic, strong) UIColor* textHighlightedColor;
+@property(nonatomic, strong) UIFont* textFont;
 
 @property(assign) CGFloat padding;
 @property(assign) CGFloat labelOffset;
