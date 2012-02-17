@@ -86,7 +86,7 @@
 }
 -(IBAction)updateLabelOffset:(id)sender {
     UIButton* button = (UIButton*)sender;
-    slider.labelOffset = [[button titleForState:UIControlStateNormal] intValue];
+    slider.textOffset = [[button titleForState:UIControlStateNormal] intValue];
 }
 -(IBAction)updatePadding:(id)sender {
     UIButton* button = (UIButton*)sender;

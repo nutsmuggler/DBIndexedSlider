@@ -18,7 +18,7 @@
     UIImage* _indicatorImage;
     NSArray* _steps;
     UIFont* _textFont;
-    CGFloat _labelOffset;
+    CGFloat _textOffset;
     CGFloat _padding;
     UIColor* _textColor;
     UIColor* _textHighlightedColor;
@@ -33,7 +33,7 @@
 @property(nonatomic, strong) UIFont* textFont;
 
 @property(assign) CGFloat padding;
-@property(assign) CGFloat labelOffset;
+@property(assign) CGFloat textOffset;
 
 @property(readonly) NSString* value;
 @property(readonly) NSUInteger indexValue;

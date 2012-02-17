@@ -47,7 +47,7 @@ typedef void (^AnimationBlock)(void);
         self.trackImage = [[UIImage imageNamed:@"stretchableTrack.png"] stretchableImageWithLeftCapWidth:1 topCapHeight:2];
         _textColor = [UIColor colorWithWhite:0.800 alpha:1.000];
         _textHighlightedColor = [UIColor colorWithWhite:0.400 alpha:1.000];
-        _labelOffset = 40;
+        _textOffset = 40;
         _textFont = [UIFont systemFontOfSize:20];
         _padding = 10;
         _steps = [NSArray arrayWithObjects:@"0",@"1",@"2",@"3", nil];
@@ -159,14 +159,14 @@ typedef void (^AnimationBlock)(void);
     [self layoutButtons];
 }
 
--(CGFloat)labelOffset {
-    return _labelOffset;
+-(CGFloat)textOffset {
+    return _textOffset;
 }
--(void)setLabelOffset:(CGFloat)labelOffset {
-    if (labelOffset == _labelOffset) {
+-(void)setTextOffset:(CGFloat)textOffset {
+    if (textOffset == _textOffset) {
         return;
     }
-    _labelOffset = labelOffset;
+    _textOffset = textOffset;
     [self layoutButtons];
 }
 
@@ -278,15 +278,17 @@ typedef void (^AnimationBlock)(void);
         [stepButton setTitle:step forState:UIControlStateNormal];
         [stepButton sizeToFit];
         CGRect frame = stepButton.frame;
+        CGFloat originalH = frame.size.height;
         if(frame.size.width < 30)
             frame.size.width = 30;
         if(frame.size.height < 30)
             frame.size.height = 30;
         stepButton.frame = frame;
         
+        CGFloat extraOffset = (stepButton.frame.size.height - originalH)/2;
         CGPoint center = stepButton.center;
         center.x = [self centerXForValue:[self valueForStep:i]];
-        center.y = self.labelOffset-3;
+        center.y = self.labelOffset + extraOffset;
         stepButton.center = center;
         
         [stepButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
