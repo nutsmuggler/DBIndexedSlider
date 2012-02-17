@@ -208,6 +208,8 @@ typedef void (^AnimationBlock)(void);
     }
     _selectedStepIndex = indexValue;
     [self moveToSelectedIndex:animated]; 
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
+
 }
 
 #pragma mark - Slider logic
