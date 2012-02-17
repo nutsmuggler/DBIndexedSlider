@@ -288,7 +288,7 @@ typedef void (^AnimationBlock)(void);
         CGFloat extraOffset = (stepButton.frame.size.height - originalH)/2;
         CGPoint center = stepButton.center;
         center.x = [self centerXForValue:[self valueForStep:i]];
-        center.y = self.labelOffset + extraOffset;
+        center.y = self.textOffset + extraOffset;
         stepButton.center = center;
         
         [stepButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
